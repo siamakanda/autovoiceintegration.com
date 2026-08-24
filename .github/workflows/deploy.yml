@@ -1,0 +1,30 @@
+name: Deploy to cPanel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # cPanel main FTP account root is the home directory; web root is public_html.
+          # If your FTP account already lands in public_html, change this to ./
+          server-dir: ./public_html/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            README.md
+            CONTEXT.md
+            .gitignore
