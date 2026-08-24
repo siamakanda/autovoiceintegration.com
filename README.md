@@ -47,6 +47,16 @@ Then visit `http://localhost:8000`.
 6. Verify the domain is serving HTTPS.
 7. Submit the demo form and confirm the email arrives.
 
+## Automated Deploy (GitHub Actions)
+The repo includes a workflow at `.github/workflows/deploy.yml` that deploys to cPanel via FTP on every push to `main` (and via manual trigger).
+
+1. Add these repository secrets under **Settings → Secrets and variables → Actions**:
+   - `FTP_SERVER` — e.g. `ftp.autovoiceintegration.com`
+   - `FTP_USERNAME` — your cPanel FTP username
+   - `FTP_PASSWORD` — your FTP password
+2. Verify `server-dir` in the workflow matches where your FTP account lands (cPanel main account root = home directory → `./public_html/`).
+3. Push to `main` (or use **Actions → Run workflow**). The workflow uploads all site files, excluding `README.md`, `CONTEXT.md`, `.git`, and `.github`.
+
 ## Configuring the Demo Form
 Open `submit.php` and update the configuration values at the top of the file:
 

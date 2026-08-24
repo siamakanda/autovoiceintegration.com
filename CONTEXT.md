@@ -123,6 +123,7 @@ Replaced sample testimonials with a neutral, capability-focused "Speed Advantage
 - Respect `prefers-reduced-motion`
 - Open Graph / Twitter share image at `assets/icons/og-image.png` (1200x630)
 - Separate `privacy.html` and `terms.html` legal pages
+- GitHub Actions workflow (`.github/workflows/deploy.yml`) deploys to cPanel via FTP on every push to `main`; FTP credentials are stored in GitHub Secrets (`FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`).
 
 ## Future Considerations
 - Add a WordPress subdirectory blog for content marketing without replacing the static landing page.
