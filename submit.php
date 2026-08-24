@@ -6,11 +6,9 @@ declare(strict_types=1);
  *
  * This script runs on shared cPanel hosting and sends form submissions
  * to the configured recipient using PHP's built-in mail() function.
- *
- * Update the configuration values below before deploying.
  */
 
-define('RECIPIENT_EMAIL', 'hello@autovoiceintegration.com');
+define('RECIPIENT_EMAIL', 'admin@autovoiceintegration.com');
 define('FROM_EMAIL', 'noreply@autovoiceintegration.com');
 define('SUBJECT_PREFIX', 'New Demo Request — AutoVoiceIntegration');
 define('MIN_SUBMIT_SECONDS', 3);
@@ -33,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // Honeypot: real users never see or fill this field.
 $website = isset($_POST['website']) ? trim((string) $_POST['website']) : '';
 if ($website !== '') {
-    // Silently pretend success to avoid confirming spam detection.
     json_response(true, 'Thank you. Your request has been sent.');
 }
 
@@ -47,15 +44,24 @@ $name = isset($_POST['name']) ? trim((string) $_POST['name']) : '';
 $business = isset($_POST['business']) ? trim((string) $_POST['business']) : '';
 $email = isset($_POST['email']) ? trim((string) $_POST['email']) : '';
 $phone = isset($_POST['phone']) ? trim((string) $_POST['phone']) : '';
+$countryCode = isset($_POST['country_code']) ? trim((string) $_POST['country_code']) : '';
 $adSpend = isset($_POST['ad_spend']) ? trim((string) $_POST['ad_spend']) : '';
 $message = isset($_POST['message']) ? trim((string) $_POST['message']) : '';
 
-if ($name === '' || $business === '' || $email === '') {
+if ($name === '' || $email === '' || $phone === '' || $countryCode === '') {
     json_response(false, 'Please complete all required fields.', 400);
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     json_response(false, 'Please enter a valid email address.', 400);
+}
+
+if (!preg_match('/^\+[0-9]{1,4}$/', $countryCode)) {
+    json_response(false, 'Please select a valid country code.', 400);
+}
+
+if (!preg_match('/^[0-9\s\-().]{6,20}$/', $phone)) {
+    json_response(false, 'Please enter a valid phone number.', 400);
 }
 
 $allowedAdSpend = [
@@ -73,19 +79,21 @@ $cleanName = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
 $cleanBusiness = htmlspecialchars($business, ENT_QUOTES, 'UTF-8');
 $cleanEmail = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
 $cleanPhone = htmlspecialchars($phone, ENT_QUOTES, 'UTF-8');
+$cleanCountryCode = htmlspecialchars($countryCode, ENT_QUOTES, 'UTF-8');
 $cleanAdSpend = htmlspecialchars($adSpend, ENT_QUOTES, 'UTF-8');
 $cleanMessage = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 
+$cleanBusiness = $cleanBusiness !== '' ? $cleanBusiness : 'Not provided';
 $cleanAdSpend = $cleanAdSpend !== '' ? $cleanAdSpend : 'Not provided';
-$cleanPhone = $cleanPhone !== '' ? $cleanPhone : 'Not provided';
 $cleanMessage = $cleanMessage !== '' ? $cleanMessage : 'No additional details provided.';
+$fullPhone = trim($cleanCountryCode . ' ' . $cleanPhone);
 
 $subject = SUBJECT_PREFIX;
-$body = "New demo request received from AutoVoiceIntegration.com\n\n"
+$body = "New demo request received from AutoVoiceIntegration\n\n"
     . "Name: {$cleanName}\n"
     . "Business: {$cleanBusiness}\n"
     . "Email: {$cleanEmail}\n"
-    . "Phone: {$cleanPhone}\n"
+    . "Phone: {$fullPhone}\n"
     . "Monthly Ad Spend: {$cleanAdSpend}\n"
     . "Message:\n{$cleanMessage}\n";
 

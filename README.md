@@ -9,7 +9,10 @@ A fast, secure static website built with plain HTML, CSS, and JavaScript. It req
 ```
 .
 ├── index.html
+├── privacy.html
+├── terms.html
 ├── submit.php
+├── sitemap.xml
 ├── CONTEXT.md
 ├── README.md
 ├── .htaccess
@@ -20,7 +23,8 @@ A fast, secure static website built with plain HTML, CSS, and JavaScript. It req
     ├── js/
     │   └── main.js
     └── icons/
-        └── favicon.svg
+        ├── favicon.svg
+        └── og-image.png
 ```
 
 ## Local Testing
@@ -47,7 +51,7 @@ Then visit `http://localhost:8000`.
 Open `submit.php` and update the configuration values at the top of the file:
 
 ```php
-define('RECIPIENT_EMAIL', 'hello@autovoiceintegration.com');
+define('RECIPIENT_EMAIL', 'admin@autovoiceintegration.com');
 define('FROM_EMAIL', 'noreply@autovoiceintegration.com');
 define('SUBJECT_PREFIX', 'New Demo Request — AutoVoiceIntegration');
 ```
@@ -64,6 +68,7 @@ Most content lives in `index.html`. Pricing, testimonials, and other placeholder
 - The `.htaccess` file adds basic security headers and enforces HTTPS where supported.
 
 ## SEO
-- Meta description, Open Graph tags, and JSON-LD structured data are included in `index.html`.
-- `robots.txt` allows search engine indexing.
-- Update the canonical URL if the site is deployed to a subdirectory or alternate domain.
+- Meta description, Open Graph tags (with `og:image`), Twitter cards, and JSON-LD structured data (Organization, WebSite, Product, FAQPage) are included.
+- `sitemap.xml` lists the homepage plus the `privacy.html` and `terms.html` legal pages.
+- `robots.txt` allows search engine indexing and references the sitemap.
+- Canonical URLs use the `www` subdomain: `https://www.autovoiceintegration.com/`.

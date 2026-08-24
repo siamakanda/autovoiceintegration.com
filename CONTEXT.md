@@ -18,7 +18,7 @@ AutoVoiceIntegration provides an AI voice agent with telephony integration and *
 - **Core offer:** One flagship AI voice agent.
 - **Brand:** `AutoVoiceIntegration`.
 - **Voice:** Professional and consultative.
-- **Visual style:** Dark navy/charcoal with electric blue and cyan accents.
+- **Visual style:** Follows the visual style of https://telnyx.com/ — black background, violet (`#8B5CF6`) and electric cyan (`#22D3EE`) accents, monospace eyebrows/accents, flat buttons with subtle borders.
 - **Scope:** Single full landing page.
 
 ## Domain
@@ -46,15 +46,15 @@ AutoVoiceIntegration turns slow, missed follow-ups into instant sales conversati
 - Use words like "speed", "context", "handoff", and "coverage" to reinforce trust
 
 ## Visual Identity
-- Background: deep navy/charcoal `#0B1220`
-- Surface: `#111C33`
-- Text primary: `#E5EDF8`
-- Text muted: `#94A3B8`
-- Accent blue: `#3B82F6`
-- Accent cyan: `#22D3EE`
-- Success: `#22C55E`
-- Typography: modern system font stack, no external font requests
-- Visual elements: CSS gradients, abstract shapes, and inline SVG icons
+- Background: black `#000000`
+- Surface: `#101010`
+- Text primary: `#FFFFFF`
+- Text muted: `#9AA3AD`
+- Accent primary (violet): `#8B5CF6`
+- Accent secondary (electric cyan): `#22D3EE`
+- Success: `#34D399`
+- Typography: Inter (body/UI, via Google Fonts) + system monospace for eyebrows/accents
+- Visual elements: subtle borders, flat surfaces, monospace accents, and inline SVG icons
 
 ## Landing Page Sections
 1. Sticky header with logo, navigation, and demo CTA
@@ -84,16 +84,17 @@ The following are framed as platform capabilities, not client-specific results:
 - Zero missed follow-ups
 - Human handoff when needed
 
-## Placeholder Items — MUST REVIEW BEFORE LAUNCH
-These values are placeholders and must be replaced or confirmed before public launch.
+## Contact Details
+- Contact email: `admin@autovoiceintegration.com`
+- Phone number: `(530) 451-7997`
+- Company legal name: `Autovoiceintegration.com`
+- Address: Delaware, US
 
-### Contact Details
-- Contact email: `hello@autovoiceintegration.com` — replace with the real receiving address.
-- Phone number: not configured. Add if available.
-- Company legal name and address: not configured.
-
-### Form Configuration
-- Recipient email in `submit.php`: `hello@autovoiceintegration.com`
+## Form Configuration
+- Recipient email in `submit.php`: `admin@autovoiceintegration.com`
+- Required fields: Full Name, Work Email, Phone Number (with country code)
+- Optional fields: Business Name, Monthly Ad Spend, Message
+- Country code is a searchable dropdown showing flag emoji + country name + dial code, covering the full world list (~230 countries/territories incl. Bangladesh +880), sorted alphabetically by name. The native `<select>` is retained (hidden) as the source of truth for no-JS form submission; JavaScript progressively enhances it.
 - Monthly ad spend options:
   - Under $5,000 / month
   - $5,000 – $15,000 / month
@@ -109,20 +110,23 @@ The site uses three consultative tiers. Current placeholder copy:
 These are intentionally not priced because the offer is consultative. If public pricing is added later, update this document.
 
 ### Testimonials
-The social proof section uses clearly editable sample testimonials. They are placeholder copy only and should be replaced with real, verifiable client quotes before launch. Do not publish sample testimonials as if they are real customer statements.
+Replaced sample testimonials with a neutral, capability-focused "Speed Advantage" block (speed-to-lead, always-on coverage, warm handoff with context). No fabricated customer quotes or names are published. If real, verifiable client quotes become available later, they can be added back to this section.
 
 ## Technical Decisions
-- No external CDN dependencies
+- Inter (Google Fonts) for body/UI, system monospace for accents
 - Inline SVG icons only
 - No stock photos in the initial build
-- Semantic HTML with JSON-LD structured data
+- Semantic HTML with JSON-LD structured data (Organization, WebSite, Product, FAQPage)
 - `.htaccess` for HTTPS, canonical host, security headers, and caching
-- `robots.txt` allows indexing
+- `robots.txt` allows indexing and references `sitemap.xml`
 - PHP handler supports both JS and no-JS form submission
 - Respect `prefers-reduced-motion`
+- Open Graph / Twitter share image at `assets/icons/og-image.png` (1200x630)
+- Separate `privacy.html` and `terms.html` legal pages
 
 ## Future Considerations
 - Add a WordPress subdirectory blog for content marketing without replacing the static landing page.
 - Add CRM/calendar integrations once the operational product and demo flow are defined.
 - Migrate to a full server if call volume, customer portals, or backend services require it.
-- Expand to separate utility pages such as Privacy Policy and Terms of Service before paid traffic scaling.
+- Add Google Analytics 4 and Google Search Console verification once IDs are available.
+- Consider upgrading form email deliverability from PHP `mail()` to SMTP (SPF/DKIM) and hardening spam protection before scaling paid traffic.
