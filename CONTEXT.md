@@ -125,11 +125,11 @@ Replaced sample testimonials with a neutral, capability-focused "Speed Advantage
 - Respect `prefers-reduced-motion`
 - Open Graph / Twitter share image at `assets/icons/og-image.png` (1200x630)
 - Separate `privacy.html` and `terms.html` legal pages
-- GitHub Actions workflow (`.github/workflows/deploy.yml`) deploys to cPanel via FTP on every push to `main`; FTP credentials are stored in GitHub Secrets (`FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`).
+- cPanel Git Version Control deploys the site using `.cpanel.yml`, which copies repository files into `/home/<user>/public_html/`. Deployment is manual via **Update from Remote** + **Deploy HEAD Commit**. The checked-out branch must be clean.
 
 ## Future Considerations
 - Add a WordPress subdirectory blog for content marketing without replacing the static landing page.
 - Add CRM/calendar integrations once the operational product and demo flow are defined.
 - Migrate to a full server if call volume, customer portals, or backend services require it.
 - Add Google Analytics 4 and Google Search Console verification once IDs are available.
-- Consider upgrading form email deliverability from PHP `mail()` to SMTP (SPF/DKIM) and hardening spam protection before scaling paid traffic.
+- Consider upgrading form email deliverability further with SPF/DKIM verification and hardening spam protection before scaling paid traffic.

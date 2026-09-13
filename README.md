@@ -39,31 +39,23 @@ php -S localhost:8000
 
 Then visit `http://localhost:8000`.
 
-## Deploying to cPanel
-1. Log in to cPanel and open **File Manager**.
-2. Navigate to the `public_html` directory, or a subdirectory if this site should live in one.
-3. Upload all files and folders while preserving the structure above.
-4. Make sure `submit.php` is in the same directory as `index.html`.
-5. Edit `submit.php` and set the correct recipient email address.
-6. Verify the domain is serving HTTPS.
-7. Submit the demo form and confirm the email arrives.
+## Deploying with cPanel Git Version Control
+The site deploys through cPanel's Git Version Control using the `.cpanel.yml` file, which copies the repository contents into `public_html`.
 
-## Automated Deploy (GitHub Actions)
-The repo includes a workflow at `.github/workflows/deploy.yml` that deploys to cPanel via FTP on every push to `main` (and via manual trigger).
+1. In cPanel, open **Git™ Version Control** and create a repository that clones this repo.
+2. On **Manage Repository**, click **Update from Remote** to pull the latest commit on `main`.
+3. Click **Deploy HEAD Commit**. The `.cpanel.yml` tasks copy all files into `/home/<user>/public_html/`.
+4. Verify the domain is serving HTTPS.
+5. Submit the demo form and confirm the email arrives.
 
-1. Add these repository secrets under **Settings → Secrets and variables → Actions**:
-   - `FTP_SERVER` — e.g. `ftp.autovoiceintegration.com`
-   - `FTP_USERNAME` — your cPanel FTP username
-   - `FTP_PASSWORD` — your FTP password
-2. Verify `server-dir` in the workflow matches where your FTP account lands (cPanel main account root = home directory → `./public_html/`).
-3. Push to `main` (or use **Actions → Run workflow**). The workflow uploads all site files, excluding `README.md`, `CONTEXT.md`, `.git`, and `.github`.
+The checked-out branch must be clean (no uncommitted changes) before cPanel will deploy. Push all changes to `main` first.
 
 ## Configuring the Demo Form
 Open `submit.php` and update the configuration values at the top of the file:
 
 ```php
 define('RECIPIENT_EMAIL', 'admin@autovoiceintegration.com');
-define('FROM_EMAIL', 'noreply@autovoiceintegration.com');
+define('FROM_EMAIL', 'admin@autovoiceintegration.com');
 define('SUBJECT_PREFIX', 'New Demo Request — AutoVoiceIntegration');
 ```
 
@@ -75,7 +67,7 @@ PHP's built-in `mail()` function is unreliable on shared cPanel hosting and can 
 1. Copy `smtp-config.sample.php` to `smtp-config.php`.
 2. Fill in your mailbox host, port, username, and password.
 3. Set `'enabled' => true`.
-4. Upload `smtp-config.php` to the server. It is gitignored, so GitHub Actions will not deploy it — upload it manually (or store the values another way).
+4. Upload `smtp-config.php` to the server via cPanel File Manager or FTP. It is gitignored, so neither Git nor cPanel Git deployment will publish it — upload it manually.
 
 `smtp-config.php` holds real credentials and must never be committed. The form uses SMTP when configured and falls back to `mail()` otherwise.
 
