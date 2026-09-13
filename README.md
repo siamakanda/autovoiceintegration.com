@@ -17,6 +17,7 @@ A fast, secure static website built with plain HTML, CSS, and JavaScript. It req
 ├── README.md
 ├── .htaccess
 ├── robots.txt
+├── smtp-config.sample.php
 └── assets/
     ├── css/
     │   └── styles.css
@@ -67,6 +68,16 @@ define('SUBJECT_PREFIX', 'New Demo Request — AutoVoiceIntegration');
 ```
 
 Also update the placeholder email address in `index.html` footer if needed.
+
+### Enabling SMTP (recommended)
+PHP's built-in `mail()` function is unreliable on shared cPanel hosting and can silently drop messages. For dependable delivery, configure authenticated SMTP:
+
+1. Copy `smtp-config.sample.php` to `smtp-config.php`.
+2. Fill in your mailbox host, port, username, and password.
+3. Set `'enabled' => true`.
+4. Upload `smtp-config.php` to the server. It is gitignored, so GitHub Actions will not deploy it — upload it manually (or store the values another way).
+
+`smtp-config.php` holds real credentials and must never be committed. The form uses SMTP when configured and falls back to `mail()` otherwise.
 
 ## Customizing Content
 Most content lives in `index.html`. Pricing, testimonials, and other placeholders are documented in `CONTEXT.md`. Review that file before publishing.

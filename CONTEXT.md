@@ -100,6 +100,7 @@ The following are framed as platform capabilities, not client-specific results:
   - $5,000 – $15,000 / month
   - $15,000 – $50,000 / month
   - $50,000+ / month
+- Email delivery supports authenticated SMTP via `smtp-config.php` (gitignored; see `smtp-config.sample.php`). Falls back to PHP `mail()` when SMTP is not configured. Real SMTP credentials must never be committed.
 
 ### Pricing Placeholders
 The site uses three consultative tiers. Current placeholder copy:
@@ -120,6 +121,7 @@ Replaced sample testimonials with a neutral, capability-focused "Speed Advantage
 - `.htaccess` for HTTPS, canonical host, security headers, and caching
 - `robots.txt` allows indexing and references `sitemap.xml`
 - PHP handler supports both JS and no-JS form submission
+- SMTP delivery is dependency-free (a small native `SmtpMailer` in `submit.php`); no Composer/PHPMailer required
 - Respect `prefers-reduced-motion`
 - Open Graph / Twitter share image at `assets/icons/og-image.png` (1200x630)
 - Separate `privacy.html` and `terms.html` legal pages
